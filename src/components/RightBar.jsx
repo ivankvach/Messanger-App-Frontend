@@ -9,8 +9,7 @@ const RightBar = () => {
   const [getmessage, setGetMessage] = useState([]);
 
   const [message, setMessage] = useState();
-  const [messageStore, setMessageStore] = useState("start")
-  const [changeData, setChangeData] = useState([]);
+  const [messageStore, setMessageStore] = useState("start");
 
   useEffect(() => {
     fetch("http://localhost:8000/users")
