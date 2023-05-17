@@ -58,7 +58,7 @@ const RightBar = () => {
         'Access-Control-Allow-Origin': true,
         'Data': 'IvanKvach+MartynKvach'
       },
-      body: JSON.stringify({ "name": "IvanKvach+OlehKvach", "message": message.message }),
+      body: JSON.stringify({ "name": "IvanKvach+" + userRedux, "message": message.message + (new Date().toLocaleTimeString() + " " + new Date(Date.now()).toLocaleString().split(',')[0]) }),
       credentials: "same-origin"
 
     })

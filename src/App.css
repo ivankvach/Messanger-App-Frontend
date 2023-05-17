@@ -39,7 +39,13 @@
 #root {
     height: 200px;
 }
-
+#login{
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  height: 500px;
+}
 /* #left_bar {
   border: 1px solid grey;
 } */

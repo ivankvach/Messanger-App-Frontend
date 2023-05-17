@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LogIn from './LogIn';
 import { Link } from "react-router-dom";
 import data from './data';
 import RightBar from './RightBar';
@@ -11,6 +12,7 @@ const LeftBar = () => {
     const dispatch = useDispatch();
 
     const [users, setUser] = useState([]);
+    const [token, setToken] = useState(false);
     useEffect(() => {
         fetch("http://localhost:8000/users")
             .then(response => response.json())
@@ -22,10 +24,31 @@ function click(username) {
     //alert(username);
     dispatch(sendUser(username));
 }
-      
+
+
+const handleSubmit = () => {
+fetch("http://localhost:8000/users/login", {
+method: 'POST',
+headers: {
+      'Content-Type': 'application/json'
+     // 'Access-Control-Allow-Origin': true
+},
+body: JSON.stringify({"username": "OlehKvach", "password": "oleh"}),
+credentials: "same-origin"
+
+})
+.then(res => res.json())
+//.then(data => console.log({"username": data.user[0].username, "token": data.token}))
+.then(data => setToken({"OlehKvach": data.token}))
+}
+   console.log(token)   
     return (
         <div>
+ 
             <h1>I'm left bar</h1>
+    
+            <button onClick={handleSubmit}>token</button>
+            {token ?
             <div>
                 <div className="list-group">
                     <a href="#" className="list-group-item list-group-item-action flex-column align-items-start active">
@@ -49,8 +72,8 @@ function click(username) {
                     
                     )}
                 </div>
-            </div>
-
+            </div> : <LogIn/>
+}
         </div>
     )
 }
