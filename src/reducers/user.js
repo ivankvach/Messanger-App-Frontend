@@ -12,11 +12,11 @@ const userReducer = (state = "", action) => {
             return state = action.payload;
 
         case 'DELETE_ITEM_FROM_BASKET':
-      return [
-          ...state.filter((card) => card._id !== action.payload)
+            return [
+                ...state.filter((card) => card._id !== action.payload)
             ]
         default:
-            return state;        
+            return state;
     }
 };
 

@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 const RightBar = () => {
 
   const userRedux = useSelector(state => state.user);
+  const loginUserRedux = useSelector(state => state.loginUser);
+  console.log("loginUserRedux"+loginUserRedux.username)
 
   const [users, setUser] = useState([]);
   const [getmessage, setGetMessage] = useState([]);
@@ -22,8 +24,8 @@ const RightBar = () => {
     fetch("http://localhost:8000/message", {
       method: 'GET',
       headers: {
-        'Data': 'IvanKvach+'+ userRedux,
-        'DataReverse': userRedux + '+IvanKvach'
+        'Data': loginUserRedux.username + '+' + userRedux,
+        'DataReverse': userRedux + '+' + loginUserRedux.username
   }})
       .then(response => response.json())
       .then(result => setGetMessage(result))
@@ -33,8 +35,10 @@ const RightBar = () => {
     fetch("http://localhost:8000/message", {
       method: 'GET',
       headers: {
-        'Data': 'IvanKvach+'+ userRedux,
-        'DataReverse': userRedux + '+IvanKvach'
+        //'Data': 'IvanKvach+'+ userRedux,
+        //'DataReverse': userRedux + '+IvanKvach'
+        'Data': loginUserRedux.username + '+' + userRedux,
+        'DataReverse': userRedux + '+' + loginUserRedux.username
   }})
       .then(response => response.json())
       .then(result => setGetMessage(result))
@@ -58,7 +62,7 @@ const RightBar = () => {
         'Access-Control-Allow-Origin': true,
         'Data': 'IvanKvach+MartynKvach'
       },
-      body: JSON.stringify({ "name": "IvanKvach+" + userRedux, "message": message.message + (new Date().toLocaleTimeString() + " " + new Date(Date.now()).toLocaleString().split(',')[0]) }),
+      body: JSON.stringify({ "name": loginUserRedux.username + '+' + userRedux, "message": message.message + (new Date().toLocaleTimeString() + " " + new Date(Date.now()).toLocaleString().split(',')[0]) }),
       credentials: "same-origin"
 
     })
@@ -92,10 +96,15 @@ const RightBar = () => {
       </a>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label for="exampleFormControlTextarea1"></label>
-          {userRedux ? getmessage.map((messages) =>
+          <label htmlFor="exampleFormControlTextarea1"></label>
+
+          <div className="form-group-messages" style={{overflowY: "scroll", height:"400px"}}>
+          {userRedux ? getmessage.map((messages) =>         
             <p>{messages.message}</p>
-          ) : <p>no messages yet... choose the user</p>}
+          ) : <p>no messages yet... choose the user</p>    
+          }
+          </div>
+
           <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
             name="message"
             type="text"
