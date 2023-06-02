@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 
 const RightBar = () => {
 
   const userRedux = useSelector(state => state.user);
   const loginUserRedux = useSelector(state => state.loginUser);
-  console.log("loginUserRedux"+loginUserRedux.username)
+  console.log("loginUserRedux" + loginUserRedux.username)
 
   const [users, setUser] = useState([]);
   const [getmessage, setGetMessage] = useState([]);
 
   const [message, setMessage] = useState();
   const [messageStore, setMessageStore] = useState("start");
+  const ref = useRef(null);
+
 
   useEffect(() => {
     fetch("http://localhost:8000/users")
@@ -26,7 +28,8 @@ const RightBar = () => {
       headers: {
         'Data': loginUserRedux.username + '+' + userRedux,
         'DataReverse': userRedux + '+' + loginUserRedux.username
-  }})
+      }
+    })
       .then(response => response.json())
       .then(result => setGetMessage(result))
   }, [userRedux])
@@ -39,7 +42,8 @@ const RightBar = () => {
         //'DataReverse': userRedux + '+IvanKvach'
         'Data': loginUserRedux.username + '+' + userRedux,
         'DataReverse': userRedux + '+' + loginUserRedux.username
-  }})
+      }
+    })
       .then(response => response.json())
       .then(result => setGetMessage(result))
   }, [messageStore])
@@ -50,7 +54,7 @@ const RightBar = () => {
     setMessage({ ...message, [event.target.name]: event.target.value })
   }
   console.log(message)
-  console.log('Ivankvach+'+ userRedux)
+  console.log('Ivankvach+' + userRedux)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -67,7 +71,10 @@ const RightBar = () => {
 
     })
       .then(res => res.json())
-      .then(res => setMessageStore(res.message))
+      .then(res => {
+        setMessageStore(res.message)
+        ref.current.value = "";
+      })
     //.then(data => console.log(data))
     //.then(data => dispatch(increment(data)))  
   }
@@ -84,9 +91,10 @@ const RightBar = () => {
 
   return (
     <div>
-      <h1>I'm right bar</h1>
-      <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
-        <div className="d-flex w-100 justify-content-between">
+       {userRedux ?
+      <div>
+      <a href="#" className="list-group-item list-group-item-action flex-column align-items-start" style={{marginTop: "35px"}}>
+        <div className="d-flex w-100 justify-content-between" >
           {/* <h5 className="mb-1">{users.map((customer) => customer.username =='IvanKvach' ? customer.username : ' ')}</h5> */}
           <h5 className="mb-1">{userRedux}</h5>
           <small className="text-muted">3 days ago</small>
@@ -98,22 +106,33 @@ const RightBar = () => {
         <div className="form-group">
           <label htmlFor="exampleFormControlTextarea1"></label>
 
-          <div className="form-group-messages" style={{overflowY: "scroll", height:"400px"}}>
-          {userRedux ? getmessage.map((messages) =>         
-            <p>{messages.message}</p>
-          ) : <p>no messages yet... choose the user</p>    
-          }
+          <div className="form-group-messages" style={{ overflowY: "scroll", height: "500px" }}>
+            {userRedux ? getmessage.map((messages) =>
+              <p style={{ backgroundColor: "lightblue", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px", width: "max-content" }}>{messages.message}</p>
+            ) : <p style={{ textAlign: "center"}}>no messages yet... choose the user</p>
+            }
           </div>
-
-          <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
+          <div className="form-group-messages-text">
+            {/*<textarea className="form-control" id="exampleFormControlTextarea1" rows="2"
             name="message"
             type="text"
             placeholder="message..."
             onChange={handleChange}
-          ></textarea>
-          <button>send</button>
+        ></textarea>*/}
+            <input
+              type="text"
+              ref={ref}
+              name="message"
+              placeholder="message..."
+              onChange={handleChange}
+              style={{borderRadius: "6px", height: "35px", paddingLeft: "10px", border: "1px solid grey"}}
+              />
+            <button style={{borderRadius: "6px", height: "35px", border: "1px solid grey", backgroundColor: "lightblue"}}>send</button>
+          </div>
         </div>
       </form>
+    </div>
+    : <div class="noMessage"><p style={{ textAlign: "center"}}>no messages yet... choose the user</p></div>}
     </div>
   )
 }

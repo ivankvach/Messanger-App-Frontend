@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { loginUser } from '../actions/loginUser';
 import { setToken } from '../actions/token';
+import { setRerender } from '../actions/rerender';
 import { useSelector, useDispatch } from 'react-redux';
 
 const LogIn = () => {
@@ -16,6 +17,7 @@ const LogIn = () => {
     const [ifName, setIfName] = useState(false);
     const [ifPassword, setIfPassword] = useState(false);
     const [isSignOrLog, setIsSignOrLog] = useState(false);
+    const [isSignOrError, setisSignOrError] = useState("");
 
     console.log("nameFrom Login " + name);
     console.log("LastnameFrom Login " + password);
@@ -56,6 +58,7 @@ const LogIn = () => {
                     setError("Username or Password incorect")
                 });
         }
+        dispatch(setRerender("login"));
         e.preventDefault()
     }
 
@@ -79,30 +82,53 @@ const LogIn = () => {
                 .then(res => res.json())
                 //.then(data => console.log({"username": data.user[0].username, "token": data.token}))
                 //.then(data => setToken({"OlehKvach": data.token}))
-                .then(data => dispatch(setToken(data.token)))
+                //.then(data => dispatch(setToken(data.token)))
+                .then(data => {
+                    setisSignOrError(data)
+                    if (isSignOrError == undefined) {
+                        setIsSignOrLog(false);
+                    } else {
+                        setIsSignOrLog(true);
+                    }
+                })
                 .catch((error) => {
-                    setError("Username or Password incorect")
+                    //setError("Username or Password incorect")
+                    console.log(error);
                 });
         }
+        dispatch(setRerender("signup"));
         e.preventDefault();
-        setIsSignOrLog(false);
+
+
     }
 
     return (
         <div id="login">
             <form>
                 {isSignOrLog ?
-                    <h1>SignUp</h1>
+                    <div>
+                        <h1>SignUp</h1>
+                    </div>
                     :
                     <h1>Login</h1>
                 }
                 <div>
                     <label htmlFor="username">Username:</label>
+                    {isSignOrError ?
+                        <div>
+                            <h6>{isSignOrError.err.message == undefined && isSignOrError.success}</h6>
+                            <h6>{isSignOrError.err.message != undefined && isSignOrError.err.message}</h6>
+                        </div>
+                        :
+                        <div></div>
+                    }
                     <div><input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        required /></div>
+                        required
+                        style={{ border: "1px solid grey", borderRadius: "6px", paddingLeft: "7px" }}
+                    /></div>
                     {ifName ? <h6 style={{ color: "red" }}>Fill the username</h6> : <h6></h6>}
                 </div>
                 {isSignOrLog == true &&
@@ -111,8 +137,10 @@ const LogIn = () => {
                         <div><input
                             type="text"
                             value={firstname}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required /></div>
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                            style={{ border: "1px solid grey", borderRadius: "6px", paddingLeft: "7px" }}
+                        /></div>
                         {ifPassword ? <h6 style={{ color: "red" }}>Fill the firstname</h6> : <h6></h6>}
                     </div>
                 }
@@ -122,8 +150,10 @@ const LogIn = () => {
                         <div><input
                             type="text"
                             value={lastname}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required /></div>
+                            onChange={(e) => setLastName(e.target.value)}
+                            required
+                            style={{ border: "1px solid grey", borderRadius: "6px", paddingLeft: "7px" }}
+                        /></div>
                         {ifPassword ? <h6 style={{ color: "red" }}>Fill the lastname</h6> : <h6></h6>}
                     </div>
                 }
@@ -133,20 +163,22 @@ const LogIn = () => {
                         type="text"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required /></div>
+                        required
+                        style={{ border: "1px solid grey", borderRadius: "6px", paddingLeft: "7px" }}
+                    /></div>
                     {ifPassword ? <h6 style={{ color: "red" }}>Fill the password</h6> : <h6></h6>}
                 </div>
                 {error ? <h6>{error}</h6> : <h6></h6>}
 
                 {isSignOrLog ?
-                    <div>
-                        <button onClick={(e) => sendToSignUp(e)}>SignUp</button>
-                        <span onClick={() => setIsSignOrLog(false)} style={{marginLeft: "10px"}}>LogIn</span>
+                    <div class="signup">
+                        <button class="signupButton" onClick={(e) => sendToSignUp(e)}>SignUp</button>
+                        <span onClick={() => setIsSignOrLog(false)} style={{ marginTop: "10px" }}>LOGIN</span>
                     </div>
                     :
-                    <div>
-                        <button onClick={(e) => sendToLogIn(e)}>LogIn</button>
-                        <span onClick={() => setIsSignOrLog(true)} style={{marginLeft: "10px"}}>SignUp</span>
+                    <div class="login">
+                        <button class="loginButton" onClick={(e) => sendToLogIn(e)}>LogIn</button>
+                        <span onClick={() => setIsSignOrLog(true)} style={{ marginTop: "10px" }}>SIGNUP</span>
                     </div>
                 }
             </form>

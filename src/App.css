@@ -32,23 +32,121 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 #root {
-    height: 200px;
+  height: 200px;
 }
-#login{
+
+#login {
   display: grid;
   justify-content: center;
   justify-items: center;
   align-items: center;
   height: 500px;
 }
+
+.list-group-search {
+  display: grid;
+  grid-template-columns: 1fr 1fr 10fr;
+  margin-bottom: 10px;
+}
+
+.login {
+  display: grid;
+  text-align: center;
+}
+
+.login button {
+  margin-top: 20px;
+}
+
+.signup {
+  display: grid;
+  text-align: center;
+}
+
+.signup button {
+  margin-top: 20px;
+}
+
+.addFriendButton {
+  width: 50px;
+  height: 25px;
+  background-color: lightblue;
+  border-radius: 3px;
+  border: 1px solid grey;
+}
+.addFriendButton:hover {
+  background-color: rgb(136, 182, 197);
+}
+
+.deleteFriendButton {
+  width: 50px;
+  height: 25px;
+  background-color: lightblue;
+  border-radius: 3px;
+  border: 1px solid grey;
+}
+.deleteFriendButton:hover {
+  background-color: rgb(136, 182, 197);
+}
+
 /* #left_bar {
   border: 1px solid grey;
 } */
 /* #right_bar {
   border: 1px solid grey;
 } */
+
+.form-group-messages-text {
+  display: grid;
+  grid-template-columns: 10fr 1fr;
+}
+
+.loginButton {
+  width: 100%;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #be3166;
+  color: white;
+  border: 1px solid #be3166;
+}
+
+.loginButton:hover {
+  background-color: #9f2855;
+}
+
+.signupButton {
+  width: 100%;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #be3166;
+  color: white;
+  border: 1px solid #be3166;
+}
+
+.signupButton:hover {
+  background-color: #9f2855;
+}
+
+/*Right Bar*/
+.col-8 {
+  display: grid;
+  align-items: center;
+}
+
+.noMessage {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
+input:focus {
+  border: 3px solid #555;
+}
