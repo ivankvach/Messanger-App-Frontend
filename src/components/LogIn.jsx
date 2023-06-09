@@ -85,9 +85,9 @@ const LogIn = () => {
                 //.then(data => dispatch(setToken(data.token)))
                 .then(data => {
                     setisSignOrError(data)
-                    if (isSignOrError == undefined) {
+                    if (isSignOrError.err != undefined) {
                         setIsSignOrLog(false);
-                    } else {
+                    } else if(isSignOrError.status != undefined){
                         setIsSignOrLog(true);
                     }
                 })
@@ -96,11 +96,13 @@ const LogIn = () => {
                     console.log(error);
                 });
         }
-        dispatch(setRerender("signup"));
+        dispatch(setRerender("signup"+ + Date.now()));
         e.preventDefault();
 
 
     }
+
+console.log("isEEERRRROOOOR"+JSON.stringify(isSignOrError));
 
     return (
         <div id="login">
@@ -116,8 +118,8 @@ const LogIn = () => {
                     <label htmlFor="username">Username:</label>
                     {isSignOrError ?
                         <div>
-                            <h6>{isSignOrError.err.message == undefined && isSignOrError.success}</h6>
-                            <h6>{isSignOrError.err.message != undefined && isSignOrError.err.message}</h6>
+                            <h6>{isSignOrError.success? isSignOrError.status : ""}</h6>
+                            <h6>{isSignOrError.err? isSignOrError.err.message : ""}</h6>
                         </div>
                         :
                         <div></div>

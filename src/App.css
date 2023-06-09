@@ -74,6 +74,17 @@
   margin-top: 20px;
 }
 
+.signOutUser {
+  width: fit-content;
+  height: fit-content;
+  background-color: lightblue;
+  border-radius: 3px;
+  border: 1px solid grey;
+}
+.signOutUser:hover {
+  background-color: rgb(136, 182, 197);
+}
+
 .addFriendButton {
   width: 50px;
   height: 25px;
@@ -145,8 +156,29 @@
   justify-content: center;
   justify-items: center;
   align-items: center;
+  border-left: 1px solid grey;
+  height: 250px;
 }
 
 input:focus {
   border: 3px solid #555;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bababa; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #7f7f7f; 
 }

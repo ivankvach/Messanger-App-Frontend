@@ -1,3 +1,10 @@
+![Alt text](./src//images/1.png "Optional title")
+![Alt text](./src/images/7.png "Optional title")
+![Alt text](./src/images/2.png "Optional title")
+![Alt text](./src/images/3.png "Optional title")
+![Alt text](./src/images/4.png "Optional title")
+![Alt text](./src/images/6.png "Optional title")
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

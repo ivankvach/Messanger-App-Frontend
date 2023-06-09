@@ -5,6 +5,7 @@ const RightBar = () => {
 
   const userRedux = useSelector(state => state.user);
   const loginUserRedux = useSelector(state => state.loginUser);
+  const tokenRedux = useSelector(state => state.token);
   console.log("loginUserRedux" + loginUserRedux.username)
 
   const [users, setUser] = useState([]);
@@ -66,7 +67,7 @@ const RightBar = () => {
         'Access-Control-Allow-Origin': true,
         'Data': 'IvanKvach+MartynKvach'
       },
-      body: JSON.stringify({ "name": loginUserRedux.username + '+' + userRedux, "message": message.message + (new Date().toLocaleTimeString() + " " + new Date(Date.now()).toLocaleString().split(',')[0]) }),
+      body: JSON.stringify({ "name": loginUserRedux.username + '+' + userRedux, "message": message.message + "\xa0\xa0\xa0\xa0" + (new Date().toLocaleTimeString() + " " + new Date(Date.now()).toLocaleString().split(',')[0]) }),
       credentials: "same-origin"
 
     })
@@ -93,7 +94,7 @@ const RightBar = () => {
     <div>
        {userRedux ?
       <div>
-      <a href="#" className="list-group-item list-group-item-action flex-column align-items-start" style={{marginTop: "35px"}}>
+      <a href="#" className="list-group-item list-group-item-action flex-column align-items-start" style={{marginTop: "-20px"}}>
         <div className="d-flex w-100 justify-content-between" >
           {/* <h5 className="mb-1">{users.map((customer) => customer.username =='IvanKvach' ? customer.username : ' ')}</h5> */}
           <h5 className="mb-1">{userRedux}</h5>
@@ -107,9 +108,9 @@ const RightBar = () => {
           <label htmlFor="exampleFormControlTextarea1"></label>
 
           <div className="form-group-messages" style={{ overflowY: "scroll", height: "500px" }}>
-            {userRedux ? getmessage.map((messages) =>
+            {getmessage.map((messages) =>
               <p style={{ backgroundColor: "lightblue", borderRadius: "10px", paddingLeft: "10px", paddingRight: "10px", width: "max-content" }}>{messages.message}</p>
-            ) : <p style={{ textAlign: "center"}}>no messages yet... choose the user</p>
+            )
             }
           </div>
           <div className="form-group-messages-text">
